@@ -1,14 +1,14 @@
 package spark.perf
 
 import java.util.Random
-import org.apache.logging.log4j.scala.Logging
-import org.apache.logging.log4j.Level
+import org.slf4j._
+
 /**
   * Created by giovanniquattrocchi on 26/06/17.
   */
 
-class ZipfRandom(val size: Int, val skew: Int, val seed: Int) extends Logging{
-
+class ZipfRandom(val size: Int, val skew: Int, val seed: Int){
+  val logger = LoggerFactory.getLogger("ZipfRandom")
   logger.info("parameters = "+size + " " + skew + " " + seed)
   val rnd = new Random(seed)
   val harmonic: Double = (1 to size).foldLeft(0d)((a, b) => a + (1.0d / Math.pow(b, skew)))
