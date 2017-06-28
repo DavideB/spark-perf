@@ -1,6 +1,7 @@
 package spark.perf
 
 import java.util.Random
+import java.util.logging.{Level, LogManager}
 
 import com.google.common.hash.HashFunction
 import org.apache.hadoop.conf.Configuration
@@ -40,11 +41,15 @@ object DataGenerator {
 
     def generatePartition(index: Int) = {
 
+      val log = LogManager.getRootLogger
+      log.setLevel(Level.DEBUG)
+
+
       // Use per-partition seeds to avoid having identical data at all partitions
       val effectiveSeed = (randomSeed ^ index).toString.hashCode
-      print("Creating ZipfRandom")
+      log.info("Creating ZipfRandom")
       val zipfRnd = new ZipfRandom(uniqueKeys, skew, effectiveSeed)
-      print("Created ZipfRandom")
+      log.info("Created ZipfRandom")
 
       val r = new Random(effectiveSeed)
       (1 to recordsPerPartition).map{i =>
