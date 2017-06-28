@@ -42,12 +42,15 @@ object DataGenerator {
 
       // Use per-partition seeds to avoid having identical data at all partitions
       val effectiveSeed = (randomSeed ^ index).toString.hashCode
+      print("Creating ZipfRandom")
       val zipfRnd = new ZipfRandom(uniqueKeys, skew, effectiveSeed)
+      print("Created ZipfRandom")
 
       val r = new Random(effectiveSeed)
       (1 to recordsPerPartition).map{i =>
         val key = zipfRnd.nextInt()-1
         val value = r.nextInt(uniqueValues)
+        print("key "+key+" value "+value)
         (key, value)
       }.iterator
     }

@@ -7,7 +7,7 @@ import java.util.Random
   */
 
 class ZipfRandom(val size: Int, val skew: Int, val seed: Int) {
-
+  print("parameters = "+size + " " + skew + " " + seed)
   val rnd = new Random(seed)
   val harmonic: Double = (1 to size).foldLeft(0d)((a, b) => a + (1.0d / Math.pow(b, skew)))
 
@@ -20,9 +20,10 @@ class ZipfRandom(val size: Int, val skew: Int, val seed: Int) {
       rank = rnd.nextInt(size) + 1
       p = getProbability(rank)
       dice = rnd.nextDouble()
+      print("dice "+dice+" p "+p)
     }
     while (dice >= p)
-
+    print("returning rank "+rank)
     rank
   }
 
