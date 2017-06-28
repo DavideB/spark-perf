@@ -1,7 +1,6 @@
 package spark.perf
 
 import java.util.Random
-import org.slf4j._
 import com.google.common.hash.HashFunction
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
@@ -10,7 +9,9 @@ import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
 
-object DataGenerator{
+
+
+object DataGenerator {
 
   /** Encode the provided integer as a fixed-length string. If a hash function is provided,
     * the integer is hashed then encoded. */
@@ -37,22 +38,18 @@ object DataGenerator{
                                skew: Int) : RDD[(Int, Int)] =
   {
     val recordsPerPartition = (numRecords / numPartitions.toDouble).toInt
-    val logger = LoggerFactory.getLogger("DataGen")
     def generatePartition(index: Int) = {
 
 
 
       // Use per-partition seeds to avoid having identical data at all partitions
       val effectiveSeed = (randomSeed ^ index).toString.hashCode
-      logger.info("Creating ZipfRandom")
       val zipfRnd = new ZipfRandom(uniqueKeys, skew, effectiveSeed)
-      logger.info("Created ZipfRandom")
 
       val r = new Random(effectiveSeed)
       (1 to recordsPerPartition).map{i =>
         val key = zipfRnd.nextInt()-1
         val value = r.nextInt(uniqueValues)
-        logger.info("key "+key+" value "+value)
         (key, value)
       }.iterator
     }

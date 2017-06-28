@@ -6,9 +6,13 @@ import org.slf4j._
 /**
   * Created by giovanniquattrocchi on 26/06/17.
   */
+trait Logging {
+  lazy val logger = LoggerFactory.getLogger(getClass)
 
-class ZipfRandom(val size: Int, val skew: Int, val seed: Int){
-  val logger = LoggerFactory.getLogger("ZipfRandom")
+  implicit def logging2Logger(anything: Logging): Logger = anything.logger
+}
+
+class ZipfRandom(val size: Int, val skew: Int, val seed: Int) extends Logging{
   logger.info("parameters = "+size + " " + skew + " " + seed)
   val rnd = new Random(seed)
   val harmonic: Double = (1 to size).foldLeft(0d)((a, b) => a + (1.0d / Math.pow(b, skew)))
