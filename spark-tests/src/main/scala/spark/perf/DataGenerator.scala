@@ -41,8 +41,8 @@ object DataGenerator {
 
     def generatePartition(index: Int) = {
 
-      val log = LogManager.getRootLogger
-      log.setLevel(Level.DEBUG)
+      val log = LogManager.getLogManager.getLogger("DataGenerator")
+      log.setLevel(Level.ALL)
 
 
       // Use per-partition seeds to avoid having identical data at all partitions

@@ -8,8 +8,8 @@ import java.util.logging.{Level, LogManager}
   */
 
 class ZipfRandom(val size: Int, val skew: Int, val seed: Int) {
-  val log = LogManager.getRootLogger
-  log.setLevel(Level.DEBUG)
+  val log = LogManager.getLogManager.getLogger("ZipfRandom")
+  log.setLevel(Level.ALL)
   log.info("parameters = "+size + " " + skew + " " + seed)
   val rnd = new Random(seed)
   val harmonic: Double = (1 to size).foldLeft(0d)((a, b) => a + (1.0d / Math.pow(b, skew)))
