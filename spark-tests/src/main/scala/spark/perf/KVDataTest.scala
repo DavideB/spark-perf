@@ -136,6 +136,13 @@ abstract class KVDataTest(sc: SparkContext, dataType: String = "string") extends
   def collectPartitions[T](rdd: RDD[T]) : Array[List[(T)]] = {
     rdd.mapPartitions(iterator => List(iterator.toList).iterator).collect()
   }
+
+  def printThis[T](rdd: RDD[T]) = {
+    val printable = collectPartitions(rdd)
+    for(i <- 0 until printable.length){
+      println(i+": "+printable(i).toString())
+    }
+  }
 }
 
 
@@ -167,8 +174,20 @@ class AggregateByKeyInt(sc: SparkContext) extends KVDataTest(sc, "int") {
 
 class AggregateByKeyNaive(sc: SparkContext) extends KVDataTest(sc) {
   override def runTest(rdd: RDD[_], reduceTasks: Int) {
-    rdd.asInstanceOf[RDD[(String, String)]]
-      .map{case (k, v) => (k, v.toInt)}.groupByKey.map{case (k, vs) => vs.sum}.count()
+
+    val one = rdd.asInstanceOf[RDD[(String, String)]]
+    println("Before MAP")
+    printThis(one)
+    val two = one.map{case (k, v) => (k, v.toInt)}
+    println("Before GroupBY")
+    printThis(two)
+    val three = two.groupByKey
+    println("After GroupBY")
+    printThis(three)
+    val four = three.map{case (k, vs) => vs.sum}
+    println("After MAP 2")
+    printThis(four)
+    four.count()
   }
 }
 
