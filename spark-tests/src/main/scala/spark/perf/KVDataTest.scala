@@ -148,7 +148,7 @@ class AggregateByKeyInt(sc: SparkContext) extends KVDataTest(sc, "int") {
   override def runTest(rdd: RDD[_], reduceTasks: Int) {
     val original = rdd.asInstanceOf[RDD[(Int, Int)]]
       .reduceByKey(_ + _, reduceTasks)
-    original.toArray().foreach(line => println(line))
+    original.saveAsTextFile("prova.txt")
     original.count()
   }
 }
