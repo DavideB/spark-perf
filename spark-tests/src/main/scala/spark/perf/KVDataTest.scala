@@ -146,8 +146,9 @@ class AggregateByKeyInt(sc: SparkContext) extends KVDataTest(sc, "int") {
   val logger = LoggerFactory.getLogger(getClass)
 
   override def runTest(rdd: RDD[_], reduceTasks: Int) {
-    val original = rdd.asInstanceOf[RDD[(Int, Int)]]
-      .reduceByKey(_ + _, reduceTasks)
+    val native = rdd.asInstanceOf[RDD[(Int, Int)]]
+    native.collect().foreach(println)
+    val original = native.reduceByKey(_ + _, reduceTasks)
     original.collect().foreach(println)
     original.count()
   }
