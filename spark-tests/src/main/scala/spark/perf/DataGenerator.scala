@@ -99,7 +99,6 @@ object DataGenerator {
             s"It is not guaranteed to be consistent with provided parameters.")
         }
         sc.textFile(storageLocation).map(_.split("\t")).map(x => {
-          logger.info(x)
           (x(0).toInt, x(1).toInt)
         })
 
