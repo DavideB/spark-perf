@@ -10,7 +10,7 @@ import scala.util.{Failure, Success, Try}
   */
 
 
-class ZipfRandom(val size: Int, val skew: Int, val seed: Int) extends Logging {
+class ZipfRandom(val size: Int, val skew: Int, val seed: Int) {
 
   val rnd = new Random(seed)
 //  val harmonic: Double = (1 to size).foldLeft(0d)((a, b) => a + (1.0d / Math.pow(b, skew)))
