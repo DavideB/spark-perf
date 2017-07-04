@@ -10,10 +10,16 @@ import scala.util.{Failure, Success, Try}
   * Created by giovanniquattrocchi on 26/06/17.
   */
 
-class ZipfRandom(val size: Int, val skew: Int, val seed: Int) {
+trait Logging {
+  lazy val logger = LoggerFactory.getLogger(getClass)
+
+  implicit def logging2Logger(anything: Logging): Logger = anything.logger
+}
+
+class ZipfRandom(val size: Int, val skew: Int, val seed: Int) extends Logging {
 
   val rnd = new Random(seed)
-  val harmonic: Double = (1 to size).foldLeft(0d)((a, b) => a + (1.0d / Math.pow(b, skew)))
+//  val harmonic: Double = (1 to size).foldLeft(0d)((a, b) => a + (1.0d / Math.pow(b, skew)))
 
   val zipfDistribution : Try[ZipfDistribution] = Try(new ZipfDistribution(size, skew))
 
@@ -24,9 +30,12 @@ class ZipfRandom(val size: Int, val skew: Int, val seed: Int) {
     }
   }
 
-
-  def getProbability(rank: Int): Double = {
-    (1.0d / Math.pow (rank, skew) ) / harmonic
+  def log(String s) = {
+    logger.info(s)
   }
+
+//  def getProbability(rank: Int): Double = {
+//    (1.0d / Math.pow (rank, skew) ) / harmonic
+//  }
 
 }

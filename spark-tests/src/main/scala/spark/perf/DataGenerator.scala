@@ -48,6 +48,7 @@ object DataGenerator {
       (1 to recordsPerPartition).map{i =>
         val key = zipfRnd.nextInt()-1
         val value = r.nextInt(uniqueValues)
+        zipfRnd.log("Generated ( " + key + " , " + value+" )")
         (key, value)
       }.iterator
     }
