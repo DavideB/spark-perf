@@ -150,7 +150,7 @@ class AggregateByKeyInt(sc: SparkContext) extends KVDataTest(sc, "int") {
     native.mapPartitionsWithIndex{case (index, part) => {
       println("INDEX: "+index)
       while(part.hasNext){
-        println(part.next)
+        println(part.next._1)
       }
       part
     }}.count()
@@ -158,7 +158,7 @@ class AggregateByKeyInt(sc: SparkContext) extends KVDataTest(sc, "int") {
     original.mapPartitionsWithIndex{case (index, part) => {
       println("INDEX: "+index)
       while(part.hasNext){
-        println(part.next)
+        println(part.next._1)
       }
       part
     }}.count()
