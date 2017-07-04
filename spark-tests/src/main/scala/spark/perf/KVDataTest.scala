@@ -154,7 +154,14 @@ class AggregateByKeyInt(sc: SparkContext) extends KVDataTest(sc, "int") {
       println(i+ ": "+originalPartitions(i).toString())
     }
 
-    rdd.asInstanceOf[RDD[(Int, Int)]].reduceByKey(_ + _, reduceTasks).count()
+    val next = rdd.asInstanceOf[RDD[(Int, Int)]].reduceByKey(_ + _, reduceTasks)
+
+    val newP = collectPartitions(next)
+    for (i <- 0 until newP.length){
+      println(i+ ": "+newP(i).toString())
+    }
+
+    next.count()
   }
 }
 
