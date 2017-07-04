@@ -3,7 +3,7 @@ package spark.perf
 import java.util.Random
 
 import org.apache.commons.math3.distribution.ZipfDistribution
-
+import org.slf4j._
 import scala.util.{Failure, Success, Try}
 
 /**
