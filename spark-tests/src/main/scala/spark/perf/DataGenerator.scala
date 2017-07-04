@@ -52,7 +52,7 @@ object DataGenerator {
       (1 to recordsPerPartition).map{i =>
         val key = zipfRnd.nextInt()-1
         val value = r.nextInt(uniqueValues)
-        logger.info("Generated ( " + key + " , " + value+" )")
+//        logger.info("Generated ( " + key + " , " + value+" )")
         (key, value)
       }.iterator
     }
@@ -98,7 +98,12 @@ object DataGenerator {
           println(s"ATTENTION: Using input data already stored in $storageLocation. " +
             s"It is not guaranteed to be consistent with provided parameters.")
         }
-        sc.textFile(storageLocation).map(_.split("\t")).map(x => (x(0).toInt, x(1).toInt))
+        sc.textFile(storageLocation).map(_.split("\t")).map(x => {
+          logger.info(x)
+          (x(0).toInt, x(1).toInt)
+        })
+
+
       }
       case unknown => {
         throw new Exception(s"Unrecognized persistence option: $unknown")

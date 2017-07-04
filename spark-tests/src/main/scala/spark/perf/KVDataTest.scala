@@ -1,4 +1,5 @@
 package spark.perf
+import org.slf4j._
 
 import scala.collection.JavaConverters._
 
@@ -141,9 +142,14 @@ class AggregateByKey(sc: SparkContext) extends KVDataTest(sc) {
 }
 
 class AggregateByKeyInt(sc: SparkContext) extends KVDataTest(sc, "int") {
+
+  val logger = LoggerFactory.getLogger(getClass)
+
   override def runTest(rdd: RDD[_], reduceTasks: Int) {
-    rdd.asInstanceOf[RDD[(Int, Int)]]
-      .reduceByKey(_ + _, reduceTasks).count()
+    val original = rdd.asInstanceOf[RDD[(Int, Int)]]
+      .reduceByKey(_ + _, reduceTasks)
+    original.collect().foreach(x => {logger.info(x)})
+    original.count()
   }
 }
 
