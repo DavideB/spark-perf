@@ -30,7 +30,7 @@ class ZipfRandom(val size: Int, val skew: Int, val seed: Int) extends Logging {
     }
   }
 
-  def log(String s) = {
+  def log(s: String) = {
     logger.info(s)
   }
 
