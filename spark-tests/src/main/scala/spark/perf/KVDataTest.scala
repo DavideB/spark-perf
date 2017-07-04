@@ -153,7 +153,7 @@ class AggregateByKeyInt(sc: SparkContext) extends KVDataTest(sc, "int") {
         println(part.next)
       }
       part
-    })
+    }).count()
     val original = native.reduceByKey(_ + _, reduceTasks)
     original.mapPartitionsWithIndex((index, part) => {
       println("INDEX: "+index)
@@ -161,7 +161,7 @@ class AggregateByKeyInt(sc: SparkContext) extends KVDataTest(sc, "int") {
         println(part.next)
       }
       part
-    })
+    }).count()
     original.count()
   }
 }
