@@ -9,8 +9,12 @@ import org.apache.hadoop.io.compress.DefaultCodec
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
+import org.slf4j._
+
 
 object DataGenerator {
+
+  val logger = LoggerFactory.getLogger(getClass)
 
   /** Encode the provided integer as a fixed-length string. If a hash function is provided,
     * the integer is hashed then encoded. */
@@ -48,7 +52,7 @@ object DataGenerator {
       (1 to recordsPerPartition).map{i =>
         val key = zipfRnd.nextInt()-1
         val value = r.nextInt(uniqueValues)
-        zipfRnd.log("Generated ( " + key + " , " + value+" )")
+        logger.info("Generated ( " + key + " , " + value+" )")
         (key, value)
       }.iterator
     }

@@ -3,18 +3,12 @@ package spark.perf
 import java.util.Random
 
 import org.apache.commons.math3.distribution.ZipfDistribution
-import org.slf4j._
 import scala.util.{Failure, Success, Try}
 
 /**
   * Created by giovanniquattrocchi on 26/06/17.
   */
 
-trait Logging {
-  lazy val logger = LoggerFactory.getLogger(getClass)
-
-  implicit def logging2Logger(anything: Logging): Logger = anything.logger
-}
 
 class ZipfRandom(val size: Int, val skew: Int, val seed: Int) extends Logging {
 
@@ -30,9 +24,6 @@ class ZipfRandom(val size: Int, val skew: Int, val seed: Int) extends Logging {
     }
   }
 
-  def log(s: String) = {
-    logger.info(s)
-  }
 
 //  def getProbability(rank: Int): Double = {
 //    (1.0d / Math.pow (rank, skew) ) / harmonic
