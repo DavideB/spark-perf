@@ -36,10 +36,11 @@ abstract class KVDataTest(sc: SparkContext, dataType: String = "string") extends
 
   val longOptions = Seq(NUM_RECORDS)
   val intOptions = Seq(NUM_TRIALS, INTER_TRIAL_WAIT, REDUCE_TASKS, KEY_LENGTH, VALUE_LENGTH, UNIQUE_KEYS,
-    UNIQUE_VALUES, NUM_PARTITIONS, RANDOM_SEED, SKEW)
+    UNIQUE_VALUES, NUM_PARTITIONS, RANDOM_SEED)
   val stringOptions = Seq(PERSISTENCE_TYPE, STORAGE_LOCATION)
   val booleanOptions = Seq(WAIT_FOR_EXIT, HASH_RECORDS)
-  val options = longOptions ++ intOptions ++ stringOptions  ++ booleanOptions
+  val doubleOptions = Seq(SKEW)
+  val options = longOptions ++ intOptions ++ stringOptions  ++ booleanOptions ++ doubleOptions
 
   val parser = new OptionParser()
   var optionSet: OptionSet = _
@@ -54,9 +55,13 @@ abstract class KVDataTest(sc: SparkContext, dataType: String = "string") extends
   stringOptions.map{case (opt, desc) =>
     parser.accepts(opt, desc).withRequiredArg().ofType(classOf[String]).required()
   }
+  doubleOptions.map{case (opt, desc) =>
+    parser.accepts(opt, desc).withRequiredArg().ofType(classOf[Double]).required()
+  }
   booleanOptions.map{case (opt, desc) =>
     parser.accepts(opt, desc)
   }
+
 
   var waitForExit = false
   var hashRecords = false
