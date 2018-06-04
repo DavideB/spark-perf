@@ -34,7 +34,7 @@ object DataGenerator {
                                uniqueValues: Int,
                                numPartitions: Int,
                                randomSeed: Int,
-                               skew: Int) : RDD[(Int, Int)] =
+                               skew: Double) : RDD[(Int, Int)] =
   {
     val recordsPerPartition = (numRecords / numPartitions.toDouble).toInt
 
@@ -65,7 +65,7 @@ object DataGenerator {
       uniqueValues: Int,
       numPartitions: Int,
       randomSeed: Int,
-      skew: Int,
+      skew: Double,
       persistenceType: String,
       storageLocation: String = "/tmp/spark-perf-kv-data")
     : RDD[(Int, Int)] =
@@ -112,7 +112,7 @@ object DataGenerator {
       valueLength: Int,
       numPartitions: Int,
       randomSeed: Int,
-      skew: Int,
+      skew: Double,
       persistenceType: String,
       storageLocation: String = "/tmp/spark-perf-kv-data",
       hashFunction: Option[HashFunction] = None)

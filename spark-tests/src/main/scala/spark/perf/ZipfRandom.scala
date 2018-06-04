@@ -10,7 +10,7 @@ import scala.util.{Failure, Success, Try}
   * Created by giovanniquattrocchi on 26/06/17.
   */
 
-class ZipfRandom(val size: Int, val skew: Int, val seed: Int) {
+class ZipfRandom(val size: Int, val skew: Double, val seed: Int) {
 
   val rnd = new Random(seed)
   val harmonic: Double = (1 to size).foldLeft(0d)((a, b) => a + (1.0d / Math.pow(b, skew)))
